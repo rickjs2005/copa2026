@@ -17,7 +17,7 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/8 bg-background/80 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
         <Link
           href="/"
@@ -64,7 +64,7 @@ export function SiteHeader() {
         <nav
           id="menu-mobile"
           aria-label="Principal (móvel)"
-          className="border-t border-white/8 bg-background/95 px-4 pb-4 pt-2 backdrop-blur-xl lg:hidden"
+          className="border-t border-border bg-background/95 px-4 pb-4 pt-2 backdrop-blur-xl lg:hidden"
         >
           {LINKS.map((link) => (
             <Link

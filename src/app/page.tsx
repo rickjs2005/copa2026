@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, Trophy } from "lucide-react";
 import { Hero } from "@/components/site/hero";
 import { Ticker } from "@/components/site/ticker";
+import { TrophySection } from "@/components/site/trophy-section";
 import { SectionHeading } from "@/components/site/section-heading";
 import { Countdown } from "@/components/site/countdown";
 import { Reveal } from "@/components/site/reveal";
@@ -26,7 +27,7 @@ export default async function Home() {
         <Reveal>
           <Link
             href="/estadios"
-            className="group relative block overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-grass/15 via-white/[0.02] to-gold/10 p-8 transition-colors hover:border-grass/40 sm:p-14"
+            className="group relative block overflow-hidden border border-border bg-gradient-to-br from-grass/15 via-white/[0.02] to-gold/10 p-8 transition-colors hover:border-grass/40 sm:p-14"
           >
             <div
               aria-hidden
@@ -61,7 +62,7 @@ export default async function Home() {
       </section>
 
       {/* Countdown para a final de 2026 */}
-      <section className="border-y border-white/8 bg-gradient-to-b from-grass/[0.06] to-transparent">
+      <section className="border-y border-border bg-gradient-to-b from-grass/[0.06] to-transparent">
         <div className="mx-auto flex max-w-7xl flex-col items-center gap-8 px-4 py-16 text-center sm:px-6 sm:py-20">
           <Reveal>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-grass">
@@ -80,6 +81,9 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* A Taça — imagem ultra + curiosidades */}
+      <TrophySection />
+
       {/* Últimos campeões → história */}
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24">
         <Reveal>
@@ -95,7 +99,7 @@ export default async function Home() {
             <Reveal key={entry.year} delay={i * 0.05}>
               <Link
                 href="/historia"
-                className="flex h-full flex-col rounded-2xl border border-white/8 bg-white/[0.03] p-6 transition-colors hover:border-grass/30"
+                className="flex h-full flex-col border border-border bg-card p-6 transition-colors hover:border-gold/50"
               >
                 <p className="flex items-center justify-between text-xs text-muted-foreground">
                   <span className="text-2xl font-black tabular-nums text-foreground">
@@ -150,7 +154,7 @@ export default async function Home() {
         <div className="grid gap-4 sm:grid-cols-3">
           {curiosities.slice(0, 3).map((item, i) => (
             <Reveal key={item.title} delay={i * 0.05}>
-              <article className="h-full rounded-2xl border border-white/8 bg-white/[0.03] p-6">
+              <article className="h-full border border-border bg-card p-6">
                 <span className="rounded-full bg-grass/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-grass">
                   {item.tag}
                 </span>

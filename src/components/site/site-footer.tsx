@@ -20,7 +20,7 @@ const COLUMNS = [
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-white/8">
+    <footer className="border-t border-border">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
           <div className="max-w-xs">
@@ -50,7 +50,7 @@ export function SiteFooter() {
             </nav>
           ))}
         </div>
-        <div className="mt-12 border-t border-white/5 pt-6 text-xs leading-relaxed text-muted-foreground">
+        <div className="mt-12 border-t border-border pt-6 text-xs leading-relaxed text-muted-foreground">
           <p>
             Site independente, sem vínculo com a FIFA ou federações. Nomes de
             competições e seleções são usados apenas para fins informativos e
