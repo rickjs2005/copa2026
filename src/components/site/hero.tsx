@@ -2,23 +2,21 @@
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { History, Sparkles } from "lucide-react";
 
-/** Fundo: campo de futebol estilizado em SVG + brilhos de gradiente.
- *  Só CSS/SVG — nada de vídeo (LCP) e nada além de transform/opacity. */
+/** Fundo: linhas de campo em SVG recoloridas + brilhos discretos.
+ *  Sem vídeo (LCP) e sem nada além de transform/opacity. */
 function PitchBackdrop() {
   return (
     <div aria-hidden className="absolute inset-0 overflow-hidden">
-      <div className="absolute -top-40 left-1/2 h-[480px] w-[720px] -translate-x-1/2 rounded-full bg-emerald-500/15 blur-[120px]" />
-      <div className="absolute -bottom-52 -left-32 h-[420px] w-[420px] rounded-full bg-cyan-500/10 blur-[100px]" />
-      <div className="absolute -right-32 top-1/3 h-[360px] w-[360px] rounded-full bg-emerald-400/8 blur-[100px]" />
+      <div className="absolute -top-44 left-1/2 h-[460px] w-[720px] -translate-x-1/2 rounded-full bg-grass/12 blur-[130px]" />
+      <div className="absolute -bottom-56 -left-28 h-[380px] w-[380px] rounded-full bg-gold/8 blur-[110px]" />
 
       <svg
         viewBox="0 0 1200 700"
         preserveAspectRatio="xMidYMid slice"
-        className="absolute inset-0 h-full w-full opacity-[0.09]"
+        className="absolute inset-0 h-full w-full opacity-[0.08]"
       >
-        <g fill="none" stroke="currentColor" strokeWidth="2" className="text-emerald-300">
+        <g fill="none" stroke="currentColor" strokeWidth="2" className="text-grass-light">
           <circle cx="600" cy="350" r="130" />
           <circle cx="600" cy="350" r="4" fill="currentColor" />
           <line x1="600" y1="0" x2="600" y2="700" />
@@ -31,7 +29,7 @@ function PitchBackdrop() {
         </g>
       </svg>
 
-      <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-transparent to-background" />
     </div>
   );
 }
@@ -42,9 +40,9 @@ export function Hero() {
     reduced
       ? {}
       : {
-          initial: { opacity: 0, y: 28 },
+          initial: { opacity: 0, y: 30 },
           animate: { opacity: 1, y: 0 },
-          transition: { duration: 0.7, delay, ease: [0.21, 0.65, 0.36, 1] as const },
+          transition: { duration: 0.75, delay, ease: [0.21, 0.65, 0.36, 1] as const },
         };
 
   return (
@@ -52,49 +50,50 @@ export function Hero() {
       <PitchBackdrop />
 
       <div className="mx-auto w-full max-w-7xl px-4 py-20 sm:px-6">
-        <div className="max-w-3xl">
-          <motion.p
-            {...anim(0)}
-            className="mb-5 inline-flex items-center gap-2 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-300"
-          >
-            1930 — 2026 · 22 edições · 8 campeões
-          </motion.p>
+        <motion.p
+          {...anim(0)}
+          className="font-display text-sm tracking-[0.3em] text-gold"
+        >
+          1930 ★ 2026 · 22 edições · 8 campeões
+        </motion.p>
 
-          <motion.h1
+        <h1 className="mt-6">
+          <motion.span
             {...anim(0.08)}
-            className="text-balance text-5xl font-black leading-[1.02] tracking-tighter sm:text-7xl lg:text-8xl"
+            className="font-display block text-[17vw] leading-[0.88] text-foreground sm:text-8xl lg:text-[9.5rem]"
           >
-            As Copas do{" "}
-            <span className="bg-gradient-to-r from-emerald-300 via-emerald-400 to-cyan-400 bg-clip-text text-transparent">
-              Mundo
-            </span>
-          </motion.h1>
-
-          <motion.p
+            As Copas
+          </motion.span>
+          <motion.span
             {...anim(0.16)}
-            className="mt-6 max-w-xl text-pretty text-lg leading-relaxed text-muted-foreground sm:text-xl"
+            className="font-display text-outline block text-[17vw] leading-[0.88] sm:text-8xl lg:text-[9.5rem]"
           >
-            96 anos de finais, gênios e arenas que viraram lendas. Percorra a
-            história — e entre nos estádios icônicos em 3D.
-          </motion.p>
+            do Mundo
+          </motion.span>
+        </h1>
 
-          <motion.div {...anim(0.24)} className="mt-9 flex flex-wrap gap-3">
-            <Link
-              href="/estadios"
-              className="inline-flex min-h-12 items-center gap-2 rounded-full bg-emerald-400 px-7 text-sm font-bold text-black transition-transform hover:scale-[1.03] active:scale-[0.98] motion-reduce:transform-none"
-            >
-              <Sparkles aria-hidden className="h-4 w-4" />
-              Estádios em 3D
-            </Link>
-            <Link
-              href="/historia"
-              className="inline-flex min-h-12 items-center gap-2 rounded-full border border-white/15 bg-white/5 px-7 text-sm font-semibold backdrop-blur-sm transition-colors hover:border-white/30 hover:bg-white/10"
-            >
-              <History aria-hidden className="h-4 w-4" />
-              Linha do tempo
-            </Link>
-          </motion.div>
-        </div>
+        <motion.p
+          {...anim(0.24)}
+          className="mt-8 max-w-xl text-pretty text-lg leading-relaxed text-muted-foreground sm:text-xl"
+        >
+          96 anos de finais, gênios e arenas que viraram lendas. Percorra a
+          história — e entre nos estádios icônicos em 3D.
+        </motion.p>
+
+        <motion.div {...anim(0.32)} className="mt-10 flex flex-wrap gap-4">
+          <Link
+            href="/estadios"
+            className="font-display inline-flex min-h-13 items-center gap-3 bg-grass px-8 text-base tracking-wider text-[#0b0d09] transition-colors hover:bg-grass-light"
+          >
+            Estádios em 3D →
+          </Link>
+          <Link
+            href="/historia"
+            className="font-display inline-flex min-h-13 items-center gap-3 border border-foreground/25 px-8 text-base tracking-wider text-foreground transition-colors hover:border-gold hover:text-gold"
+          >
+            Linha do tempo
+          </Link>
+        </motion.div>
       </div>
     </section>
   );

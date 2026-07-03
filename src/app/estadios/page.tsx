@@ -1,10 +1,16 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Users } from "lucide-react";
 import { SectionHeading } from "@/components/site/section-heading";
 import { Reveal } from "@/components/site/reveal";
 import { StadiumExperienceLazy } from "@/components/three/stadium-experience-loader";
 import { ICONIC_STADIUMS } from "@/data/iconic-stadiums";
+import { MEDIA_IMAGES } from "@/data/media";
 import { breadcrumbLd, JsonLd } from "@/lib/seo";
+
+const PHOTO_BY_STADIUM = new Map(
+  MEDIA_IMAGES.filter((m) => m.stadium).map((m) => [m.stadium as string, m])
+);
 
 export const metadata: Metadata = {
   title: "Estádios icônicos das Copas em 3D",
@@ -25,24 +31,51 @@ export default function EstadiosPage() {
       <StadiumExperienceLazy />
 
       <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {ICONIC_STADIUMS.map((stadium, i) => (
-          <Reveal key={stadium.slug} delay={Math.min(i * 0.04, 0.2)}>
-            <article className="flex h-full flex-col rounded-2xl border border-white/8 bg-white/[0.03] p-6 transition-colors hover:border-emerald-500/30">
-              <p className="text-3xl" aria-hidden>{stadium.flag}</p>
-              <h2 className="mt-3 text-lg font-bold leading-snug">{stadium.name}</h2>
-              <p className="mt-0.5 text-xs text-muted-foreground">
-                {stadium.city}, {stadium.country} · {stadium.cups}
-              </p>
-              <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
-                {stadium.fact}
-              </p>
-              <p className="mt-4 flex items-center gap-1.5 border-t border-white/5 pt-4 text-sm font-semibold">
-                <Users aria-hidden className="h-4 w-4 text-emerald-400" />
-                {stadium.capacity} lugares
-              </p>
-            </article>
-          </Reveal>
-        ))}
+        {ICONIC_STADIUMS.map((stadium, i) => {
+          const photo = PHOTO_BY_STADIUM.get(stadium.slug);
+          return (
+            <Reveal key={stadium.slug} delay={Math.min(i * 0.04, 0.2)}>
+              <article className="flex h-full flex-col border border-border bg-card transition-colors hover:border-gold/50">
+                {photo && (
+                  <figure className="relative aspect-[16/10] overflow-hidden">
+                    <Image
+                      src={photo.src}
+                      alt={photo.alt}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      className="object-cover"
+                    />
+                    <span
+                      aria-hidden
+                      className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent"
+                    />
+                    <span className="absolute bottom-2 left-3 text-2xl" aria-hidden>
+                      {stadium.flag}
+                    </span>
+                  </figure>
+                )}
+                <div className="flex flex-1 flex-col p-6">
+                  <h2 className="font-display text-xl leading-snug">{stadium.name}</h2>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    {stadium.city}, {stadium.country} · {stadium.cups}
+                  </p>
+                  <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
+                    {stadium.fact}
+                  </p>
+                  <p className="mt-4 flex items-center gap-1.5 border-t border-border pt-4 text-sm font-semibold">
+                    <Users aria-hidden className="h-4 w-4 text-grass" />
+                    {stadium.capacity} lugares
+                  </p>
+                  {photo && (
+                    <p className="mt-2 text-[10px] leading-snug text-muted-foreground/70">
+                      {photo.credit}
+                    </p>
+                  )}
+                </div>
+              </article>
+            </Reveal>
+          );
+        })}
       </div>
 
       <p className="mt-10 text-xs text-muted-foreground">

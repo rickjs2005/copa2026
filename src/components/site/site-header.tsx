@@ -21,18 +21,10 @@ export function SiteHeader() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
         <Link
           href="/"
-          className="flex items-center gap-2 font-bold tracking-tight"
-          aria-label="Copa 2026 — página inicial"
+          className="font-display flex items-center gap-2 text-xl tracking-wide"
+          aria-label="As Copas do Mundo — página inicial"
         >
-          <span
-            aria-hidden
-            className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-400 to-cyan-500 text-sm font-black text-black"
-          >
-            26
-          </span>
-          <span className="text-lg">
-            copa<span className="text-emerald-400">2026</span>
-          </span>
+          As<span className="text-gold">★</span>Copas
         </Link>
 
         <nav aria-label="Principal" className="hidden items-center gap-1 lg:flex">
@@ -44,10 +36,10 @@ export function SiteHeader() {
                 href={link.href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "rounded-full px-3.5 py-2 text-sm font-medium transition-colors",
+                  "font-display px-4 py-2 text-sm tracking-[0.14em] transition-colors",
                   active
-                    ? "bg-white/10 text-foreground"
-                    : "text-muted-foreground hover:bg-white/5 hover:text-foreground"
+                    ? "text-gold"
+                    : "text-muted-foreground hover:text-foreground"
                 )}
               >
                 {link.label}

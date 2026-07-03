@@ -1,12 +1,15 @@
 import Link from "next/link";
 import { ArrowRight, Trophy } from "lucide-react";
 import { Hero } from "@/components/site/hero";
+import { Ticker } from "@/components/site/ticker";
 import { SectionHeading } from "@/components/site/section-heading";
 import { Countdown } from "@/components/site/countdown";
 import { Reveal } from "@/components/site/reveal";
 import { getCuriosities, getFinalKickoff, getHistory } from "@/lib/api";
 import { formatFullDate } from "@/lib/format";
 import { ICONIC_STADIUMS } from "@/data/iconic-stadiums";
+import { MEDIA_VIDEOS } from "@/data/media";
+import { VideoCard } from "@/components/site/video-card";
 
 export default async function Home() {
   const [history, curiosities] = await Promise.all([getHistory(), getCuriosities()]);
@@ -16,12 +19,14 @@ export default async function Home() {
     <>
       <Hero />
 
+      <Ticker />
+
       {/* Chamada para a experiência 3D */}
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24">
         <Reveal>
           <Link
             href="/estadios"
-            className="group relative block overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-emerald-500/15 via-white/[0.02] to-cyan-500/10 p-8 transition-colors hover:border-emerald-400/40 sm:p-14"
+            className="group relative block overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-grass/15 via-white/[0.02] to-gold/10 p-8 transition-colors hover:border-grass/40 sm:p-14"
           >
             <div
               aria-hidden
@@ -29,7 +34,7 @@ export default async function Home() {
             >
               🏟️
             </div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-400">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-grass">
               Experiência interativa
             </p>
             <h2 className="mt-3 max-w-2xl text-balance text-3xl font-black tracking-tight sm:text-5xl">
@@ -40,7 +45,7 @@ export default async function Home() {
               Maracanã, o Azteca, Wembley e o dourado Lusail. Com Modo cinema
               para você gravar e compartilhar.
             </p>
-            <span className="mt-7 inline-flex min-h-12 items-center gap-2 rounded-full bg-emerald-400 px-7 text-sm font-bold text-black transition-transform group-hover:scale-[1.03] motion-reduce:transform-none">
+            <span className="mt-7 inline-flex min-h-12 items-center gap-2 rounded-full bg-grass px-7 text-sm font-bold text-black transition-transform group-hover:scale-[1.03] motion-reduce:transform-none">
               Explorar em 3D
               <ArrowRight aria-hidden className="h-4 w-4" />
             </span>
@@ -56,10 +61,10 @@ export default async function Home() {
       </section>
 
       {/* Countdown para a final de 2026 */}
-      <section className="border-y border-white/8 bg-gradient-to-b from-emerald-500/[0.06] to-transparent">
+      <section className="border-y border-white/8 bg-gradient-to-b from-grass/[0.06] to-transparent">
         <div className="mx-auto flex max-w-7xl flex-col items-center gap-8 px-4 py-16 text-center sm:px-6 sm:py-20">
           <Reveal>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-400">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-grass">
               O próximo capítulo
             </p>
             <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-5xl">
@@ -90,13 +95,13 @@ export default async function Home() {
             <Reveal key={entry.year} delay={i * 0.05}>
               <Link
                 href="/historia"
-                className="flex h-full flex-col rounded-2xl border border-white/8 bg-white/[0.03] p-6 transition-colors hover:border-emerald-500/30"
+                className="flex h-full flex-col rounded-2xl border border-white/8 bg-white/[0.03] p-6 transition-colors hover:border-grass/30"
               >
                 <p className="flex items-center justify-between text-xs text-muted-foreground">
                   <span className="text-2xl font-black tabular-nums text-foreground">
                     {entry.year}
                   </span>
-                  <Trophy aria-hidden className="h-4 w-4 text-emerald-400" />
+                  <Trophy aria-hidden className="h-4 w-4 text-grass" />
                 </p>
                 <p className="mt-4 text-lg font-bold">
                   <span aria-hidden>{entry.championFlag}</span> {entry.champion}
@@ -113,6 +118,26 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* Momentos em vídeo */}
+      {MEDIA_VIDEOS.length > 0 && (
+        <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 sm:pb-24">
+          <Reveal>
+            <SectionHeading
+              eyebrow="Aperte o play"
+              title="Momentos em vídeo"
+              description="A história das Copas contada em imagens — direto no YouTube."
+            />
+          </Reveal>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {MEDIA_VIDEOS.slice(0, 4).map((video, i) => (
+              <Reveal key={video.id} delay={i * 0.05}>
+                <VideoCard video={video} />
+              </Reveal>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* Curiosidades */}
       <section className="mx-auto max-w-7xl px-4 pb-24 sm:px-6">
         <Reveal>
@@ -126,7 +151,7 @@ export default async function Home() {
           {curiosities.slice(0, 3).map((item, i) => (
             <Reveal key={item.title} delay={i * 0.05}>
               <article className="h-full rounded-2xl border border-white/8 bg-white/[0.03] p-6">
-                <span className="rounded-full bg-emerald-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-emerald-400">
+                <span className="rounded-full bg-grass/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-grass">
                   {item.tag}
                 </span>
                 <h3 className="mt-4 font-bold leading-snug">{item.title}</h3>

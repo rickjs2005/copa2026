@@ -14,11 +14,11 @@ function diff(target: number) {
 
 function Unit({ value, label }: { value: number; label: string }) {
   return (
-    <div className="flex flex-col items-center rounded-2xl border border-white/8 bg-white/[0.03] px-4 py-3 backdrop-blur-sm sm:px-6 sm:py-4">
-      <span className="text-3xl font-bold tabular-nums tracking-tight sm:text-5xl">
+    <div className="flex flex-col items-center border border-border bg-card px-4 py-3 sm:px-7 sm:py-5">
+      <span className="font-display text-4xl tabular-nums sm:text-6xl">
         {String(value).padStart(2, "0")}
       </span>
-      <span className="mt-1 text-[11px] font-medium uppercase tracking-widest text-muted-foreground">
+      <span className="mt-1 text-[11px] font-medium uppercase tracking-[0.2em] text-gold">
         {label}
       </span>
     </div>

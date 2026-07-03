@@ -25,8 +25,8 @@ export default async function CuriosidadesPage() {
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {curiosities.map((item, i) => (
           <Reveal key={item.title} delay={Math.min(i * 0.03, 0.15)}>
-            <article className="flex h-full flex-col rounded-2xl border border-white/8 bg-white/[0.03] p-6 transition-colors hover:border-emerald-500/30">
-              <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-emerald-400">
+            <article className="flex h-full flex-col rounded-2xl border border-white/8 bg-white/[0.03] p-6 transition-colors hover:border-grass/30">
+              <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-grass/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-grass">
                 <Sparkles aria-hidden className="h-3 w-3" />
                 {item.tag}
               </span>

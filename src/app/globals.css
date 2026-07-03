@@ -1,17 +1,21 @@
 @import "tailwindcss";
 
 /* ============================================================
-   copa2026 — design tokens (dark por padrão)
-   Paleta: grafite profundo + verde-gramado (emerald) + ciano
+   AS COPAS DO MUNDO — identidade editorial
+   Preto-esverdeado de gramado noturno + creme de papel de
+   pôster antigo + verde-campo + dourado de taça.
+   Display: Anton (condensada). Corpo: Archivo.
    ============================================================ */
 
 :root {
-  --background: #09090b;
-  --foreground: #fafafa;
-  --muted-foreground: #a1a1aa;
-  --card: #101013;
-  --border: rgba(255, 255, 255, 0.08);
-  --accent: #34d399;
+  --background: #0b0d09;
+  --foreground: #f0ead9;
+  --muted-foreground: #a39c8a;
+  --card: #11140d;
+  --border: rgba(240, 234, 217, 0.12);
+  --grass: #4fae57;
+  --grass-light: #93d49b;
+  --gold: #d9a842;
 }
 
 @theme inline {
@@ -20,27 +24,20 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-card: var(--card);
   --color-border: var(--border);
-  --color-accent: var(--accent);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-grass: var(--grass);
+  --color-grass-light: var(--grass-light);
+  --color-gold: var(--gold);
+  --font-sans: var(--font-archivo);
+  --font-display: var(--font-anton);
 
-  --animate-accordion-down: accordion-down 0.2s ease-out;
-  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-ticker: ticker 46s linear infinite;
 
-  @keyframes accordion-down {
+  @keyframes ticker {
     from {
-      height: 0;
+      transform: translateX(0);
     }
     to {
-      height: var(--radix-accordion-content-height);
-    }
-  }
-  @keyframes accordion-up {
-    from {
-      height: var(--radix-accordion-content-height);
-    }
-    to {
-      height: 0;
+      transform: translateX(-50%);
     }
   }
 }
@@ -54,26 +51,52 @@ html {
   html {
     scroll-behavior: auto;
   }
+  .animate-ticker {
+    animation: none;
+  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   text-rendering: optimizeLegibility;
+  position: relative;
+}
+
+/* grão de impressão — tira o "liso de IA" de tela */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* display sempre em caixa alta, tracking de pôster */
+.font-display {
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+/* título vazado (contorno) para camadas tipográficas do hero */
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--foreground);
 }
 
 ::selection {
-  background: var(--accent);
-  color: #000;
+  background: var(--gold);
+  color: #14120a;
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--gold);
   outline-offset: 2px;
 }
 
-/* barra de rolagem discreta no bracket e nos chips */
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+  scrollbar-color: rgba(240, 234, 217, 0.18) transparent;
 }

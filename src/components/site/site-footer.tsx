@@ -24,14 +24,8 @@ export function SiteFooter() {
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
           <div className="max-w-xs">
-            <p className="flex items-center gap-2 font-bold tracking-tight">
-              <span
-                aria-hidden
-                className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-400 to-cyan-500 text-sm font-black text-black"
-              >
-                26
-              </span>
-              copa<span className="text-emerald-400">2026</span>
+            <p className="font-display text-2xl tracking-wide">
+              As<span className="text-gold">★</span>Copas
             </p>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
               Um tributo independente às Copas do Mundo — a história, os
@@ -46,7 +40,7 @@ export function SiteFooter() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="inline-flex min-h-9 items-center text-sm text-muted-foreground transition-colors hover:text-emerald-400"
+                      className="inline-flex min-h-9 items-center text-sm text-muted-foreground transition-colors hover:text-grass"
                     >
                       {link.label}
                     </Link>
