@@ -3,10 +3,11 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Reveal } from "./reveal";
 
-// A foto real do troféu (Wikimedia Commons, verificada) em alta resolução
+// A foto real do troféu (Wikimedia Commons, verificada) em alta resolução —
+// close-up dourado em que a taça enche o quadro (inspecionada visualmente)
 const TROPHY_SRC =
-  "https://commons.wikimedia.org/wiki/Special:FilePath/FIFA_World_Cup_Trophy_(Ank_Kumar,_Infosys_Limited)_01.jpg?width=1600";
-const TROPHY_CREDIT = "Foto: Ank Kumar · Wikimedia Commons (CC BY-SA 4.0)";
+  "https://commons.wikimedia.org/wiki/Special:FilePath/FIFA_World_Cup_Trophy_photo_by_Djuradj_Vujcic.jpg?width=1600";
+const TROPHY_CREDIT = "Foto: Djuradj Vujcic · Wikimedia Commons (CC BY 2.0)";
 
 const TROPHY_FACTS = [
   {
