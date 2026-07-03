@@ -142,7 +142,7 @@ export function StadiumExperience({ initialSlug }: StadiumExperienceProps) {
             <div className="mt-4">
               <ShareButton
                 url={`https://copa2026-alpha.vercel.app/estadios/${selected.slug}`}
-                title={`${selected.name} em 3D — As★Copas`}
+                title={`${selected.name} em 3D — As🏆Copas`}
               />
             </div>
           </div>
@@ -220,7 +220,7 @@ export function StadiumExperience({ initialSlug }: StadiumExperienceProps) {
       {cinema && (
         <div className="pointer-events-none absolute bottom-5 right-5 z-10 text-right [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
           <p className="font-display text-lg uppercase leading-none text-foreground">
-            As<span className="text-gold">★</span>Copas
+            As<span aria-hidden className="text-[0.8em]">🏆</span>Copas
           </p>
           <p className="mt-1 text-[11px] text-foreground/70">copa2026-alpha.vercel.app</p>
         </div>

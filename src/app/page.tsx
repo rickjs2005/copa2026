@@ -165,7 +165,7 @@ export default async function Home() {
                 </p>
               </div>
             </div>
-            <span className="font-display inline-flex min-h-12 items-center gap-2 bg-gold px-6 text-sm tracking-wider text-black transition-colors group-hover:bg-grass">
+            <span className="font-display inline-flex min-h-12 w-full items-center justify-center gap-2 bg-gold px-6 text-sm tracking-wider text-black transition-colors group-hover:bg-grass sm:w-auto">
               Abrir o álbum
               <ArrowRight aria-hidden className="h-4 w-4" />
             </span>

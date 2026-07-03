@@ -21,7 +21,7 @@ export default function FigurinhasPage() {
       />
 
       {/* sem <Reveal> aqui: fotos eager fora de wrapper animado (padrão do site) */}
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 min-[440px]:grid-cols-2 sm:gap-6 lg:grid-cols-3">
         {STICKERS.map((sticker) => (
           <StickerCard key={sticker.slug} sticker={sticker} />
         ))}

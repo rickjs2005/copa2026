@@ -26,7 +26,7 @@ export function SiteFooter() {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
           <div className="max-w-xs">
             <p className="font-display text-2xl tracking-wide">
-              As<span className="text-gold">★</span>Copas
+              As<span aria-hidden className="text-[0.8em]">🏆</span>Copas
             </p>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
               Um tributo independente às Copas do Mundo — a história, os

@@ -41,7 +41,7 @@ export function SiteHeader() {
           className="font-display flex items-center gap-2 text-xl tracking-wide"
           aria-label="As Copas do Mundo — página inicial"
         >
-          As<span className="text-gold">★</span>Copas
+          As<span aria-hidden className="text-[0.8em]">🏆</span>Copas
         </Link>
 
         <nav aria-label="Principal" className="hidden items-center gap-1 lg:flex">
