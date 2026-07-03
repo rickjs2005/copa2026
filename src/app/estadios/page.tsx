@@ -1,16 +1,21 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { Users } from "lucide-react";
 import { SectionHeading } from "@/components/site/section-heading";
-import { Reveal } from "@/components/site/reveal";
 import { StadiumExperienceLazy } from "@/components/three/stadium-experience-loader";
 import { ICONIC_STADIUMS } from "@/data/iconic-stadiums";
 import { MEDIA_IMAGES } from "@/data/media";
 import { breadcrumbLd, JsonLd } from "@/lib/seo";
 
-const PHOTO_BY_STADIUM = new Map(
-  MEDIA_IMAGES.filter((m) => m.stadium).map((m) => [m.stadium as string, m])
-);
+// first-wins: a primeira foto de cada estádio é o "cartão-postal"
+// (as seguintes são históricas e vivem na linha do tempo)
+const PHOTO_BY_STADIUM = new Map<string, (typeof MEDIA_IMAGES)[number]>();
+for (const m of MEDIA_IMAGES) {
+  if (m.stadium && !PHOTO_BY_STADIUM.has(m.stadium)) {
+    PHOTO_BY_STADIUM.set(m.stadium, m);
+  }
+}
 
 export const metadata: Metadata = {
   title: "Estádios icônicos das Copas em 3D",
@@ -31,11 +36,15 @@ export default function EstadiosPage() {
       <StadiumExperienceLazy />
 
       <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {ICONIC_STADIUMS.map((stadium, i) => {
+        {ICONIC_STADIUMS.map((stadium) => {
           const photo = PHOTO_BY_STADIUM.get(stadium.slug);
           return (
-            <Reveal key={stadium.slug} delay={Math.min(i * 0.04, 0.2)}>
-              <article className="flex h-full flex-col border border-border bg-card transition-colors hover:border-gold/50">
+            <Link
+              key={stadium.slug}
+              href={`/estadios/${stadium.slug}`}
+              className="group block h-full"
+            >
+              <article className="flex h-full flex-col border border-border bg-card transition-colors group-hover:border-gold/50">
                 {photo && (
                   <figure className="relative aspect-[16/10] overflow-hidden">
                     <Image
@@ -55,7 +64,9 @@ export default function EstadiosPage() {
                   </figure>
                 )}
                 <div className="flex flex-1 flex-col p-6">
-                  <h2 className="font-display text-xl leading-snug">{stadium.name}</h2>
+                  <h2 className="font-display text-xl leading-snug transition-colors group-hover:text-gold">
+                    {stadium.name}
+                  </h2>
                   <p className="mt-1 text-xs text-muted-foreground">
                     {stadium.city}, {stadium.country} · {stadium.cups}
                   </p>
@@ -67,13 +78,13 @@ export default function EstadiosPage() {
                     {stadium.capacity} lugares
                   </p>
                   {photo && (
-                    <p className="mt-2 text-[10px] leading-snug text-muted-foreground/70">
+                    <p className="mt-2 text-[11px] leading-snug text-muted-foreground">
                       {photo.credit}
                     </p>
                   )}
                 </div>
               </article>
-            </Reveal>
+            </Link>
           );
         })}
       </div>

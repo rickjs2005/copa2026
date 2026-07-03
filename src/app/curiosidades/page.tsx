@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { Sparkles } from "lucide-react";
 import { SectionHeading } from "@/components/site/section-heading";
-import { Reveal } from "@/components/site/reveal";
+import { CuriosityGrid } from "@/components/site/curiosity-grid";
 import { getCuriosities } from "@/lib/api";
-import { breadcrumbLd, JsonLd } from "@/lib/seo";
+import { breadcrumbLd, JsonLd, SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Curiosidades da Copa 2026",
@@ -11,6 +10,16 @@ export const metadata: Metadata = {
     "Fatos e curiosidades da Copa do Mundo 2026: recordes, formato inédito de 48 seleções, estreantes, tecnologia e histórias que você não sabia.",
   alternates: { canonical: "/curiosidades" },
 };
+
+// mesma regra de slug usada nas âncoras do CuriosityGrid (client)
+function slugify(title: string) {
+  return title
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
 
 export default async function CuriosidadesPage() {
   const curiosities = await getCuriosities();
@@ -22,25 +31,25 @@ export default async function CuriosidadesPage() {
         title="Curiosidades"
         description="Recordes, lendas, zebras e os fatos desta edição — incluindo a queda do recorde de Klose."
       />
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {curiosities.map((item, i) => (
-          <Reveal key={item.title} delay={Math.min(i * 0.03, 0.15)}>
-            <article className="flex h-full flex-col border border-border bg-card p-6 transition-colors hover:border-gold/50">
-              <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-grass/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-grass">
-                <Sparkles aria-hidden className="h-3 w-3" />
-                {item.tag}
-              </span>
-              <h2 className="mt-4 text-lg font-bold leading-snug">{item.title}</h2>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
-            </article>
-          </Reveal>
-        ))}
-      </div>
+      <CuriosityGrid items={curiosities} />
       <JsonLd
         data={breadcrumbLd([
           { name: "Início", path: "/" },
           { name: "Curiosidades", path: "/curiosidades" },
         ])}
+      />
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          name: "Curiosidades da Copa do Mundo",
+          itemListElement: curiosities.map((item, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            name: item.title,
+            url: `${SITE_URL}/curiosidades#${slugify(item.title)}`,
+          })),
+        }}
       />
     </div>
   );

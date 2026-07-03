@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
@@ -15,6 +15,22 @@ const LINKS = [
 export function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const firstLinkRef = useRef<HTMLAnchorElement>(null);
+
+  // acessibilidade do menu móvel: foco no primeiro link ao abrir,
+  // Escape fecha e devolve o foco ao botão hamburger
+  useEffect(() => {
+    if (!open) return;
+    firstLinkRef.current?.focus();
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key !== "Escape") return;
+      setOpen(false);
+      triggerRef.current?.focus();
+    }
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [open]);
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl">
@@ -49,6 +65,7 @@ export function SiteHeader() {
         </nav>
 
         <button
+          ref={triggerRef}
           type="button"
           onClick={() => setOpen(!open)}
           aria-expanded={open}
@@ -66,9 +83,10 @@ export function SiteHeader() {
           aria-label="Principal (móvel)"
           className="border-t border-border bg-background/95 px-4 pb-4 pt-2 backdrop-blur-xl lg:hidden"
         >
-          {LINKS.map((link) => (
+          {LINKS.map((link, i) => (
             <Link
               key={link.href}
+              ref={i === 0 ? firstLinkRef : undefined}
               href={link.href}
               onClick={() => setOpen(false)}
               aria-current={pathname.startsWith(link.href) ? "page" : undefined}

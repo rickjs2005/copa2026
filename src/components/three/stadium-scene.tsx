@@ -23,14 +23,19 @@ function CinemaRig({ enabled }: { enabled: boolean }) {
 export function StadiumScene({
   stadium,
   cinema,
+  active = true,
 }: {
   stadium: IconicStadium;
   cinema: boolean;
+  /** Pausa o render fora da viewport / aba oculta ("never" congela o frameloop). */
+  active?: boolean;
 }) {
   const controls = useRef<OrbitControlsImpl>(null);
 
   return (
     <Canvas
+      // "always" quando ativo por causa do autoRotate + damping contínuos
+      frameloop={active ? "always" : "never"}
       dpr={[1, 1.75]}
       camera={{ position: [10.5, 5.2, 11.5], fov: 42 }}
       gl={{ antialias: true, alpha: true }}

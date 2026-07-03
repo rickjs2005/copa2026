@@ -60,7 +60,7 @@ export function TrophySection() {
               <span className="text-gold">do futebol</span>
             </p>
           </div>
-          <figcaption className="mt-2 text-[10px] text-muted-foreground/70">
+          <figcaption className="mt-2 text-[11px] text-muted-foreground">
             {TROPHY_CREDIT}
           </figcaption>
         </figure>

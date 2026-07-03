@@ -46,7 +46,7 @@ export default async function Home() {
               Maracanã, o Azteca, Wembley e o dourado Lusail. Com Modo cinema
               para você gravar e compartilhar.
             </p>
-            <span className="mt-7 inline-flex min-h-12 items-center gap-2 rounded-full bg-grass px-7 text-sm font-bold text-black transition-transform group-hover:scale-[1.03] motion-reduce:transform-none">
+            <span className="font-display mt-7 inline-flex min-h-13 items-center gap-3 bg-grass px-8 text-base tracking-wider text-[#0b0d09] transition-colors group-hover:bg-grass-light">
               Explorar em 3D
               <ArrowRight aria-hidden className="h-4 w-4" />
             </span>
@@ -155,7 +155,7 @@ export default async function Home() {
           {curiosities.slice(0, 3).map((item, i) => (
             <Reveal key={item.title} delay={i * 0.05}>
               <article className="h-full border border-border bg-card p-6">
-                <span className="rounded-full bg-grass/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-grass">
+                <span className="inline-flex w-fit items-center border border-border px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-grass">
                   {item.tag}
                 </span>
                 <h3 className="mt-4 font-bold leading-snug">{item.title}</h3>
