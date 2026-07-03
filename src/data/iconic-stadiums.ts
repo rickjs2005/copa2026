@@ -43,6 +43,26 @@ export type Landmark =
       topRingColor: string;
     };
 
+/** Um anel (tier) de arquibancada em degraus. */
+export type StandTier = {
+  /** envelope da rampa [raio, y][] — da borda junto ao campo até o topo do anel */
+  envelope: BowlPoint[];
+  /** nº de fileiras (degraus piso+espelho) do anel */
+  rows: number;
+};
+
+/** Arquibancadas reais: degraus, setores e torcida instanciada. */
+export type StandsParams = {
+  /** 1 anel (estádios baixos) ou 2 anéis com passeio/mureta entre eles */
+  tiers: StandTier[];
+  /** cor base dos assentos (fileiras ímpares ficam ~8% mais escuras) */
+  seatColor: string;
+  /** nº de cunhas radiais de setor (corredores levemente mais escuros) */
+  sectors: number;
+  /** alvo de instâncias de torcida (máx. 2000, seed determinístico por slug) */
+  crowd: number;
+};
+
 export type StadiumParams = {
   /** escala horizontal da elipse (x = largura, z = profundidade) */
   sx: number;
@@ -61,6 +81,8 @@ export type StadiumParams = {
   glowR: number;
   glowY: number;
   landmark: Landmark;
+  /** arquibancadas em degraus (substituem a superfície lisa interna do bowl) */
+  stands: StandsParams;
 };
 
 export type IconicStadium = {
@@ -108,6 +130,13 @@ export const ICONIC_STADIUMS: IconicStadium[] = [
       glowY: 0.5,
       // Torre de los Homenajes estilizada: ~2.5× a altura do bowl
       landmark: { kind: "deco-tower", height: 2.5, color: "#d9d2c0", tipColor: "#ffd98a" },
+      // anfiteatro raso de anel único, concreto claro
+      stands: {
+        tiers: [{ envelope: [[4.6, 0.3], [5.7, 0.55], [7.3, 1.0]], rows: 12 }],
+        seatColor: "#c6bda6",
+        sectors: 10,
+        crowd: 1400,
+      },
     },
   },
   {
@@ -147,6 +176,13 @@ export const ICONIC_STADIUMS: IconicStadium[] = [
         outer: 7.95,
         color: "#f6f3ea",
         seatBand: { color: "#2e6fd8", top: 5.9, bottom: 5.15, y: 0.62, height: 0.5 },
+      },
+      // bowl contínuo e largo — anel único de muitas fileiras
+      stands: {
+        tiers: [{ envelope: [[4.6, 0.32], [5.9, 0.68], [7.3, 1.12]], rows: 14 }],
+        seatColor: "#d3cdbd",
+        sectors: 12,
+        crowd: 1900,
       },
     },
   },
@@ -190,6 +226,16 @@ export const ICONIC_STADIUMS: IconicStadium[] = [
         emissive: "#9fd4ff",
         ringColor: "#e3e6ec",
       },
+      // dois anéis (inferior + superior) com passeio — assentos vermelhos icônicos
+      stands: {
+        tiers: [
+          { envelope: [[4.6, 0.5], [5.6, 1.1]], rows: 8 },
+          { envelope: [[5.85, 1.28], [6.9, 1.9]], rows: 8 },
+        ],
+        seatColor: "#a03c40",
+        sectors: 10,
+        crowd: 1800,
+      },
     },
   },
   {
@@ -231,6 +277,16 @@ export const ICONIC_STADIUMS: IconicStadium[] = [
         y: 2.95,
         color: "#5f594c",
       },
+      // o mais alto: dois anéis íngremes de concreto sob a canopy
+      stands: {
+        tiers: [
+          { envelope: [[4.6, 0.45], [5.55, 1.75]], rows: 10 },
+          { envelope: [[5.8, 1.95], [6.95, 3.35]], rows: 12 },
+        ],
+        seatColor: "#8d8474",
+        sectors: 10,
+        crowd: 1900,
+      },
     },
   },
   {
@@ -264,6 +320,13 @@ export const ICONIC_STADIUMS: IconicStadium[] = [
       glowY: 0.42,
       // só torres de luz finas — anfiteatro antigo
       landmark: { kind: "light-towers", count: 6, height: 2.7, radius: 8.9 },
+      // anel único rasíssimo e enorme — muitas fileiras baixas
+      stands: {
+        tiers: [{ envelope: [[4.6, 0.18], [6.1, 0.42], [7.9, 0.9]], rows: 16 }],
+        seatColor: "#d8c29c",
+        sectors: 12,
+        crowd: 1950,
+      },
     },
   },
   {
@@ -302,6 +365,16 @@ export const ICONIC_STADIUMS: IconicStadium[] = [
         bands: 11,
         colors: ["#8f4a28", "#c8763f", "#e5a25a", "#a05630", "#d88a49", "#7a3f22"],
       },
+      // dois anéis DENTRO da casca da cabaça — assentos laranja
+      stands: {
+        tiers: [
+          { envelope: [[4.7, 0.25], [5.45, 1.15]], rows: 8 },
+          { envelope: [[5.65, 1.35], [6.15, 2.15]], rows: 8 },
+        ],
+        seatColor: "#d97f3e",
+        sectors: 10,
+        crowd: 1600,
+      },
     },
   },
   {
@@ -335,6 +408,16 @@ export const ICONIC_STADIUMS: IconicStadium[] = [
       glowY: 1.35,
       // coroa luminosa no topo
       landmark: { kind: "crown", radius: 6.5, y: 2.62, color: "#ffd98a", intensity: 1.4 },
+      // dois anéis DENTRO da concha dourada (cintura côncava por fora)
+      stands: {
+        tiers: [
+          { envelope: [[4.6, 0.28], [5.0, 0.9]], rows: 7 },
+          { envelope: [[5.12, 1.5], [5.62, 2.25]], rows: 8 },
+        ],
+        seatColor: "#c8a35c",
+        sectors: 9,
+        crowd: 1500,
+      },
     },
   },
   {
@@ -375,6 +458,16 @@ export const ICONIC_STADIUMS: IconicStadium[] = [
         width: 0.42,
         color: "#b9c1cc",
         topRingColor: "#2a2f36",
+      },
+      // dois anéis modernos cinza-frio atrás das lâminas
+      stands: {
+        tiers: [
+          { envelope: [[4.6, 0.5], [5.6, 1.5]], rows: 9 },
+          { envelope: [[5.85, 1.7], [6.6, 2.55]], rows: 9 },
+        ],
+        seatColor: "#9aa3b0",
+        sectors: 10,
+        crowd: 1900,
       },
     },
   },

@@ -54,7 +54,7 @@ export function Hero() {
           {...anim(0)}
           className="font-display text-sm tracking-[0.3em] text-gold"
         >
-          1930 ★ 2026 · 22 edições · 8 campeões
+          1930 ★ 2026 · 23ª edição em jogo · 8 campeões
         </motion.p>
 
         <h1 className="mt-6">

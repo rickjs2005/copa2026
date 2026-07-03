@@ -6,8 +6,8 @@ export const CURIOSITIES: Curiosity[] = [
   // ------------------------------------------------------------ Recordes
   {
     tag: "Recordes",
-    title: "O artilheiro silencioso",
-    text: "Miroslav Klose marcou 16 gols em quatro Copas (2002–2014) e é o maior artilheiro da história do torneio. O gol que superou o recorde de Ronaldo saiu justamente contra o Brasil, no 7 a 1 de 2014, no Mineirão. Klose nunca ganhou uma Chuteira de Ouro — mas ninguém marcou mais que ele.",
+    title: "O recorde que caiu nesta Copa",
+    text: "Por 12 anos, os 16 gols de Miroslav Klose (2002–2014) foram o teto das Copas. Em 22 de junho de 2026, Messi o superou com dois gols contra a Áustria — e quatro dias depois foi a vez de Mbappé passar o alemão, marcando duas vezes na Suécia. O novo pódio histórico: Messi com 19, Mbappé com 18 e Klose, agora, em terceiro.",
   },
   {
     tag: "Recordes",
@@ -48,7 +48,7 @@ export const CURIOSITIES: Curiosity[] = [
   {
     tag: "Lendas",
     title: "A coleção completa de Messi",
-    text: "Em 2022, Messi finalmente ergueu a taça que faltava — e de forma histórica: 7 gols no torneio, gol em todas as fases do mata-mata e 2 na final contra a França. Também se tornou o jogador com mais partidas em Copas: 26, superando as 25 de Lothar Matthäus.",
+    text: "Em 2022, Messi ergueu a taça que faltava com 7 gols e gol em todas as fases do mata-mata. Em 2026, aos 39 anos e em sua sexta Copa, foi além: tornou-se o maior artilheiro da história do torneio (19 gols), estendeu seu recorde de partidas para 29 jogos e ainda lidera a artilharia desta edição, com 6 gols.",
   },
   {
     tag: "Lendas",
@@ -154,7 +154,7 @@ export const CURIOSITIES: Curiosity[] = [
   {
     tag: "Brasil nas Copas",
     title: "O único onipresente",
-    text: "O Brasil é a única seleção que disputou todas as 22 edições da Copa do Mundo — nem guerra, nem eliminatória jamais o deixaram fora. São 5 títulos (1958, 1962, 1970, 1994 e 2002), 114 jogos e 237 gols até 2022, todos recordes do torneio.",
+    text: "O Brasil é a única seleção presente em todas as edições da Copa do Mundo — 23 com a de 2026, em disputa agora. Nem guerra, nem eliminatória jamais o deixaram fora. São 5 títulos (1958, 1962, 1970, 1994 e 2002) e os recordes de jogos e gols do torneio.",
   },
   {
     tag: "Brasil nas Copas",
@@ -176,5 +176,15 @@ export const CURIOSITIES: Curiosity[] = [
     tag: "2026",
     title: "Uma Copa do tamanho de um continente",
     text: "Pela primeira vez, três países dividem a organização: Estados Unidos (11 sedes), México (3) e Canadá (2). A distância entre as cidades-sede mais extremas, Vancouver e Miami, passa de 4.500 km — mais que de Lisboa a Moscou. A final será no MetLife Stadium, em Nova Jersey, em 19 de julho.",
+  },
+  {
+    tag: "2026",
+    title: "O duelo dos gigantes pela artilharia",
+    text: "A Copa de 2026 virou o palco de uma corrida histórica: Messi lidera a artilharia da edição com 6 gols, seguido por Mbappé, Haaland e Kane, com 5 cada. É a primeira vez que os dois maiores artilheiros da história das Copas disputam a mesma edição já no topo do ranking de todos os tempos.",
+  },
+  {
+    tag: "2026",
+    title: "A zebra que atravessou o mata-mata",
+    text: "A República Democrática do Congo, de volta às Copas depois de meio século (jogou em 1974 como Zaire), avançou no mata-mata de 2026 e se tornou uma das grandes histórias da edição — enquanto seleções tradicionais fizeram as malas mais cedo.",
   },
 ];

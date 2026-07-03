@@ -18,9 +18,9 @@ export default async function CuriosidadesPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
       <SectionHeading
-        eyebrow="Você sabia?"
+        eyebrow="Você sabia? · Atualizado em 3 de julho de 2026"
         title="Curiosidades"
-        description="Recordes, regras novas e histórias da maior Copa já disputada."
+        description="Recordes, lendas, zebras e os fatos desta edição — incluindo a queda do recorde de Klose."
       />
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {curiosities.map((item, i) => (

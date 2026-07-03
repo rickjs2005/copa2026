@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import * as THREE from "three";
-import type { IconicStadium, Landmark, StadiumParams } from "@/data/iconic-stadiums";
+import type { BowlPoint, IconicStadium, Landmark, StadiumParams } from "@/data/iconic-stadiums";
 
 /** Textura do gramado desenhada em canvas — nenhum asset externo. */
 function usePitchTexture() {
@@ -44,13 +44,279 @@ function profileToPoints(profile: StadiumParams["profile"], smooth?: boolean): T
   return curve.getPoints(28).map((p) => new THREE.Vector2(p.x, p.y));
 }
 
-/** Bowl principal: lathe do perfil próprio do estádio. */
-function useBowlGeometry(params: StadiumParams) {
+/**
+ * Casca/fachada externa do estádio.
+ * - Perfis `smooth` (Lusail): a concha inteira é a fachada — lathe completa.
+ * - Demais: só o trecho do ápice em diante (topo + parede externa), porque a
+ *   superfície interna lisa foi substituída pelas arquibancadas em degraus.
+ */
+function useShellGeometry(params: StadiumParams) {
   return useMemo(() => {
-    const geo = new THREE.LatheGeometry(profileToPoints(params.profile, params.smooth), 80);
+    let pts: THREE.Vector2[];
+    if (params.smooth) {
+      pts = profileToPoints(params.profile, true);
+    } else {
+      const topY = Math.max(...params.profile.map(([, y]) => y));
+      const apex = params.profile.findIndex(([, y]) => y === topY);
+      pts = params.profile.slice(apex).map(([r, y]) => new THREE.Vector2(r, y));
+    }
+    const geo = new THREE.LatheGeometry(pts, 80);
     geo.computeVertexNormals();
     return geo;
   }, [params]);
+}
+
+/* ============================================================
+ * Arquibancadas em degraus + torcida
+ * ============================================================ */
+
+const STAND_SEGMENTS = 72;
+const CROWD_CAP = 2000;
+
+/** PRNG determinístico (mulberry32) — nada de Math.random p/ não quebrar hidratação. */
+function mulberry32(seed: number) {
+  let s = seed >>> 0;
+  return () => {
+    s = (s + 0x6d2b79f5) | 0;
+    let t = Math.imul(s ^ (s >>> 15), 1 | s);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+/** Hash FNV-1a do slug → seed estável por estádio. */
+function hashSlug(str: string) {
+  let h = 2166136261;
+  for (let i = 0; i < str.length; i++) h = Math.imul(h ^ str.charCodeAt(i), 16777619);
+  return h >>> 0;
+}
+
+/** Amostra o envelope (polilinha [r,y]) em `rows`+1 estações por comprimento de arco. */
+function sampleEnvelope(envelope: BowlPoint[], rows: number): BowlPoint[] {
+  const cum = [0];
+  for (let i = 1; i < envelope.length; i++) {
+    const [ra, ya] = envelope[i - 1];
+    const [rb, yb] = envelope[i];
+    cum.push(cum[i - 1] + Math.hypot(rb - ra, yb - ya));
+  }
+  const total = cum[cum.length - 1];
+  const out: BowlPoint[] = [];
+  for (let s = 0; s <= rows; s++) {
+    const d = (s / rows) * total;
+    let i = 1;
+    while (i < cum.length - 1 && cum[i] < d) i++;
+    const t = (d - cum[i - 1]) / (cum[i] - cum[i - 1] || 1);
+    out.push([
+      THREE.MathUtils.lerp(envelope[i - 1][0], envelope[i][0], t),
+      THREE.MathUtils.lerp(envelope[i - 1][1], envelope[i][1], t),
+    ]);
+  }
+  return out;
+}
+
+type StandSegment = { a: BowlPoint; b: BowlPoint; color: THREE.Color };
+
+/**
+ * Perfil contínuo da arquibancada: mureta frontal → degraus (espelho+piso) →
+ * [mureta + passeio entre anéis → parede frontal do anel superior → degraus] →
+ * parede de fundo (só nos estádios cuja casca é separada: Lusail/cabaça).
+ */
+function standProfileSegments(params: StadiumParams): StandSegment[] {
+  const { stands } = params;
+  const seat = new THREE.Color(stands.seatColor);
+  const seatDark = seat.clone().multiplyScalar(0.92);
+  const wall = seat.clone().multiplyScalar(0.76);
+  const interior = params.smooth || params.landmark.kind === "calabash-rings";
+  const segs: StandSegment[] = [];
+  let row = 0;
+
+  stands.tiers.forEach((tier, t) => {
+    const st = sampleEnvelope(tier.envelope, tier.rows);
+    const [r0, y0] = st[0];
+    if (t === 0) {
+      // mureta frontal junto ao campo
+      segs.push({ a: [r0, 0.04], b: [r0, y0], color: wall });
+    } else {
+      // mureta baixa + passeio horizontal entre anel inferior e superior
+      const prevEnv = stands.tiers[t - 1].envelope;
+      const [r1, y1] = prevEnv[prevEnv.length - 1];
+      segs.push({ a: [r1, y1], b: [r1, y1 + 0.13], color: wall });
+      segs.push({ a: [r1, y1 + 0.13], b: [r1 + 0.07, y1 + 0.13], color: wall });
+      segs.push({ a: [r1 + 0.07, y1 + 0.13], b: [r1 + 0.07, y1], color: wall });
+      segs.push({ a: [r1 + 0.07, y1], b: [r0, y1], color: wall });
+      segs.push({ a: [r0, y1], b: [r0, y0], color: wall });
+    }
+    for (let i = 0; i < tier.rows; i++) {
+      const [rA, yA] = st[i];
+      const [rB, yB] = st[i + 1];
+      const c = row % 2 === 0 ? seat : seatDark;
+      // espelho (riser) um pouco mais escuro que o piso — realça o degrau
+      segs.push({ a: [rA, yA], b: [rA, yB], color: c.clone().multiplyScalar(0.88) });
+      segs.push({ a: [rA, yB], b: [rB, yB], color: c });
+      row++;
+    }
+    if (interior && t === stands.tiers.length - 1) {
+      const [rN, yN] = st[st.length - 1];
+      segs.push({ a: [rN, yN], b: [rN, Math.max(0.04, yN - 0.5)], color: wall });
+    }
+  });
+  return segs;
+}
+
+/** Revoluciona os segmentos do perfil em uma única BufferGeometry com vertex colors. */
+function buildStandsGeometry(params: StadiumParams): THREE.BufferGeometry {
+  const segs = standProfileSegments(params);
+  const S = STAND_SEGMENTS;
+  const { sectors } = params.stands;
+
+  // colunas de corredor (divisões de setor): levemente mais escuras
+  const colFactor = new Float32Array(S);
+  for (let j = 0; j < S; j++) {
+    const isAisle = Math.floor((j * sectors) / S) !== Math.floor(((j + 1) * sectors) / S);
+    colFactor[j] = isAisle ? 0.72 : 1;
+  }
+  const cos: number[] = [];
+  const sin: number[] = [];
+  for (let j = 0; j <= S; j++) {
+    const a = (j / S) * Math.PI * 2;
+    cos.push(Math.cos(a));
+    sin.push(Math.sin(a));
+  }
+
+  const quads = segs.length * S;
+  const pos = new Float32Array(quads * 12);
+  const nor = new Float32Array(quads * 12);
+  const col = new Float32Array(quads * 12);
+  const idx = new Uint32Array(quads * 6);
+  const c = new THREE.Color();
+  let v = 0;
+  let f = 0;
+
+  for (const seg of segs) {
+    const [rA, yA] = seg.a;
+    const [rB, yB] = seg.b;
+    const dr = rB - rA;
+    const dy = yB - yA;
+    const len = Math.hypot(dr, dy) || 1;
+    const nr = -dy / len; // normal 2D: pisos p/ cima, espelhos p/ o campo
+    const ny = dr / len;
+    for (let j = 0; j < S; j++) {
+      const base = v / 3;
+      c.copy(seg.color).multiplyScalar(colFactor[j]);
+      // v0=A@j, v1=A@j+1, v2=B@j+1, v3=B@j
+      const corners: [number, number, number][] = [
+        [rA, yA, j],
+        [rA, yA, j + 1],
+        [rB, yB, j + 1],
+        [rB, yB, j],
+      ];
+      for (const [r, y, jj] of corners) {
+        pos[v] = r * cos[jj];
+        nor[v] = nr * cos[jj];
+        col[v] = c.r;
+        v++;
+        pos[v] = y;
+        nor[v] = ny;
+        col[v] = c.g;
+        v++;
+        pos[v] = r * sin[jj];
+        nor[v] = nr * sin[jj];
+        col[v] = c.b;
+        v++;
+      }
+      idx[f++] = base;
+      idx[f++] = base + 2;
+      idx[f++] = base + 3;
+      idx[f++] = base;
+      idx[f++] = base + 1;
+      idx[f++] = base + 2;
+    }
+  }
+
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+  geo.setAttribute("normal", new THREE.BufferAttribute(nor, 3));
+  geo.setAttribute("color", new THREE.BufferAttribute(col, 3));
+  geo.setIndex(new THREE.BufferAttribute(idx, 1));
+  return geo;
+}
+
+/** Arquibancadas em degraus: fileiras alternadas + corredores de setor (vertex colors). */
+function TerracedStands({ params }: { params: StadiumParams }) {
+  const geo = useMemo(() => buildStandsGeometry(params), [params]);
+  const mat = useMemo(
+    () =>
+      new THREE.MeshStandardMaterial({
+        vertexColors: true,
+        roughness: 0.85,
+        metalness: 0.05,
+        side: THREE.DoubleSide,
+      }),
+    []
+  );
+  return (
+    <mesh geometry={geo} material={mat} scale={[params.sx, 1, params.sz]} castShadow receiveShadow />
+  );
+}
+
+/** Torcida: InstancedMesh de esferinhas sobre os pisos, seed determinístico por slug. */
+function Crowd({ params, slug }: { params: StadiumParams; slug: string }) {
+  const mesh = useMemo(() => {
+    const { stands, sx, sz } = params;
+    const rng = mulberry32(hashSlug(slug) || 1);
+
+    // slots regulares ao longo de cada piso de fileira
+    type Slot = { r: number; y: number; a: number; depth: number };
+    const slots: Slot[] = [];
+    for (const tier of stands.tiers) {
+      const st = sampleEnvelope(tier.envelope, tier.rows);
+      for (let i = 0; i < tier.rows; i++) {
+        const rMid = (st[i][0] + st[i + 1][0]) / 2;
+        const depth = st[i + 1][0] - st[i][0];
+        const y = st[i + 1][1] + 0.05;
+        const n = Math.max(8, Math.floor((Math.PI * 2 * rMid * ((sx + sz) / 2)) / 0.22));
+        for (let k = 0; k < n; k++) {
+          slots.push({ r: rMid, y, a: ((k + 0.5) / n) * Math.PI * 2, depth });
+        }
+      }
+    }
+
+    // ocupação parcial (~60-70%) com buracos naturais
+    const target = Math.min(stands.crowd, CROWD_CAP);
+    const p = Math.min(0.72, target / slots.length);
+    const chosen: Slot[] = [];
+    for (const s of slots) {
+      const keep = rng() < p;
+      if (keep && chosen.length < target) chosen.push(s);
+    }
+
+    const palette = [
+      params.accentColor,
+      "#f2ede2",
+      "#252b34",
+      "#c9484f",
+      "#3e6ed0",
+      "#e7b84a",
+    ].map((hex) => new THREE.Color(hex));
+
+    const geo = new THREE.SphereGeometry(0.048, 6, 5);
+    const mat = new THREE.MeshStandardMaterial({ roughness: 0.9, metalness: 0 });
+    const im = new THREE.InstancedMesh(geo, mat, chosen.length);
+    const m = new THREE.Matrix4();
+    chosen.forEach((s, i) => {
+      const a = s.a + (rng() - 0.5) * 0.02;
+      const r = s.r + (rng() - 0.5) * s.depth * 0.4;
+      m.makeTranslation(Math.cos(a) * r * sx, s.y, Math.sin(a) * r * sz);
+      im.setMatrixAt(i, m);
+      im.setColorAt(i, palette[Math.floor(rng() * palette.length)]);
+    });
+    im.instanceMatrix.needsUpdate = true;
+    if (im.instanceColor) im.instanceColor.needsUpdate = true;
+    im.frustumCulled = false;
+    return im;
+  }, [params, slug]);
+
+  return <primitive object={mesh} />;
 }
 
 /* ============================================================
@@ -377,7 +643,7 @@ function SteelBlades({
 export function StadiumModel({ stadium }: { stadium: IconicStadium }) {
   const { params } = stadium;
   const pitch = usePitchTexture();
-  const bowl = useBowlGeometry(params);
+  const shell = useShellGeometry(params);
 
   const { sx, sz, landmark } = params;
   const innerR = params.profile[0][0];
@@ -403,12 +669,18 @@ export function StadiumModel({ stadium }: { stadium: IconicStadium }) {
         <meshStandardMaterial map={pitch} roughness={1} />
       </mesh>
 
-      {/* bowl — na cabaça, a casca vira anéis coloridos (mosaico) */}
+      {/* casca/fachada externa — na cabaça, vira anéis coloridos (mosaico) */}
       {landmark.kind === "calabash-rings" ? (
         <CalabashRings params={params} landmark={landmark} sx={sx} sz={sz} />
       ) : (
-        <mesh geometry={bowl} material={bowlMat} scale={[sx, 1, sz]} castShadow receiveShadow />
+        <mesh geometry={shell} material={bowlMat} scale={[sx, 1, sz]} castShadow receiveShadow />
       )}
+
+      {/* arquibancadas reais em degraus (fileiras alternadas + setores) */}
+      <TerracedStands params={params} />
+
+      {/* torcida instanciada sobre os pisos */}
+      <Crowd params={params} slug={stadium.slug} />
 
       {/* brilho do evento: banda emissiva interna */}
       <mesh position={[0, params.glowY, 0]} scale={[sx, 1, sz]}>
