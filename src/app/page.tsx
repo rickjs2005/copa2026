@@ -142,6 +142,37 @@ export default async function Home() {
         </section>
       )}
 
+      {/* Figurinhas — teaser */}
+      <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 sm:pb-24">
+        <Reveal>
+          <Link
+            href="/figurinhas"
+            className="group flex flex-wrap items-center justify-between gap-4 border-2 border-gold/50 bg-card p-6 transition-colors hover:border-gold sm:p-8"
+          >
+            <div className="flex items-center gap-4">
+              <span aria-hidden className="text-4xl sm:text-5xl">
+                🎴
+              </span>
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold">
+                  Novo no álbum
+                </p>
+                <h2 className="font-display mt-1 text-2xl sm:text-3xl">
+                  Figurinhas da Copa — com os áudios virais
+                </h2>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Do “We Arredi” do Messi ao hino do Cucurella. As lendárias brilham. ✨
+                </p>
+              </div>
+            </div>
+            <span className="font-display inline-flex min-h-12 items-center gap-2 bg-gold px-6 text-sm tracking-wider text-black transition-colors group-hover:bg-grass">
+              Abrir o álbum
+              <ArrowRight aria-hidden className="h-4 w-4" />
+            </span>
+          </Link>
+        </Reveal>
+      </section>
+
       {/* Curiosidades */}
       <section className="mx-auto max-w-7xl px-4 pb-24 sm:px-6">
         <Reveal>

@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 
 const LINKS = [
   { href: "/estadios", label: "Estádios em 3D" },
+  { href: "/figurinhas", label: "Figurinhas" },
   { href: "/historia", label: "História" },
   { href: "/curiosidades", label: "Curiosidades" },
 ];

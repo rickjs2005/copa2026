@@ -5,6 +5,7 @@ const COLUMNS = [
     title: "Explorar",
     links: [
       { href: "/estadios", label: "Estádios em 3D" },
+      { href: "/figurinhas", label: "Figurinhas da Copa" },
       { href: "/historia", label: "História das Copas" },
       { href: "/curiosidades", label: "Curiosidades" },
     ],
