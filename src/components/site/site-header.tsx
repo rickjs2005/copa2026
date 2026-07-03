@@ -7,14 +7,9 @@ import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const LINKS = [
-  { href: "/jogos", label: "Jogos" },
-  { href: "/tabela", label: "Tabela" },
-  { href: "/mata-mata", label: "Mata-mata" },
-  { href: "/estatisticas", label: "Estatísticas" },
-  { href: "/selecoes", label: "Seleções" },
-  { href: "/estadios", label: "Estádios" },
+  { href: "/estadios", label: "Estádios em 3D" },
   { href: "/historia", label: "História" },
-  { href: "/noticias", label: "Notícias" },
+  { href: "/curiosidades", label: "Curiosidades" },
 ];
 
 export function SiteHeader() {

@@ -18,11 +18,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Copa do Mundo 2026 — jogos, tabela e estatísticas",
-    template: "%s · Copa 2026",
+    default: "As Copas do Mundo — história, campeões e estádios icônicos em 3D",
+    template: "%s · Copas do Mundo",
   },
   description:
-    "Guia completo da Copa do Mundo FIFA 2026: jogos de hoje, resultados, tabela dos grupos, mata-mata, artilheiros, seleções, estádios e a contagem regressiva para a final.",
+    "Um tributo interativo às Copas do Mundo: a linha do tempo de todos os campeões desde 1930, curiosidades e os estádios que viraram lendas — Maracanã, Azteca, Wembley e mais — explorados em 3D.",
   alternates: { canonical: "./" },
   openGraph: {
     type: "website",
@@ -34,13 +34,13 @@ export const metadata: Metadata = {
     card: "summary_large_image",
   },
   keywords: [
-    "Copa do Mundo 2026",
-    "jogos de hoje",
-    "tabela da copa",
-    "mata-mata",
-    "artilheiros",
-    "seleções",
-    "resultados",
+    "Copa do Mundo",
+    "história das Copas",
+    "campeões da Copa do Mundo",
+    "Maracanã",
+    "estádios em 3D",
+    "final da Copa 2026",
+    "curiosidades da Copa",
   ],
   robots: { index: true, follow: true },
 };

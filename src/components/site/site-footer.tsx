@@ -2,28 +2,18 @@ import Link from "next/link";
 
 const COLUMNS = [
   {
-    title: "Torneio",
-    links: [
-      { href: "/jogos", label: "Jogos" },
-      { href: "/tabela", label: "Classificação" },
-      { href: "/mata-mata", label: "Mata-mata" },
-      { href: "/estatisticas", label: "Estatísticas" },
-    ],
-  },
-  {
     title: "Explorar",
     links: [
-      { href: "/selecoes", label: "Seleções" },
-      { href: "/estadios", label: "Estádios e sedes" },
+      { href: "/estadios", label: "Estádios em 3D" },
       { href: "/historia", label: "História das Copas" },
       { href: "/curiosidades", label: "Curiosidades" },
     ],
   },
   {
-    title: "Mais",
+    title: "Edições",
     links: [
-      { href: "/noticias", label: "Notícias" },
-      { href: "/faq", label: "Perguntas frequentes" },
+      { href: "/historia", label: "Todos os campeões" },
+      { href: "/estadios", label: "Palcos das finais" },
     ],
   },
 ];
@@ -32,7 +22,7 @@ export function SiteFooter() {
   return (
     <footer className="border-t border-white/8">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
           <div className="max-w-xs">
             <p className="flex items-center gap-2 font-bold tracking-tight">
               <span
@@ -44,8 +34,8 @@ export function SiteFooter() {
               copa<span className="text-emerald-400">2026</span>
             </p>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              Guia independente da Copa do Mundo 2026 — jogos, tabelas,
-              estatísticas e histórias do maior evento do futebol.
+              Um tributo independente às Copas do Mundo — a história, os
+              campeões e os estádios que viraram lendas, em 3D.
             </p>
           </div>
           {COLUMNS.map((col) => (
@@ -69,9 +59,8 @@ export function SiteFooter() {
         <div className="mt-12 border-t border-white/5 pt-6 text-xs leading-relaxed text-muted-foreground">
           <p>
             Site independente, sem vínculo com a FIFA ou federações. Nomes de
-            competições e seleções são usados apenas para fins informativos.
-            Os dados exibidos nesta versão são de demonstração — estrutura
-            pronta para dados oficiais em tempo real.
+            competições e seleções são usados apenas para fins informativos e
+            históricos. Os modelos 3D são representações estilizadas autorais.
           </p>
         </div>
       </div>

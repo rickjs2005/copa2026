@@ -2,19 +2,17 @@
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { CalendarDays, Table2 } from "lucide-react";
+import { History, Sparkles } from "lucide-react";
 
 /** Fundo: campo de futebol estilizado em SVG + brilhos de gradiente.
  *  Só CSS/SVG — nada de vídeo (LCP) e nada além de transform/opacity. */
 function PitchBackdrop() {
   return (
     <div aria-hidden className="absolute inset-0 overflow-hidden">
-      {/* brilhos */}
       <div className="absolute -top-40 left-1/2 h-[480px] w-[720px] -translate-x-1/2 rounded-full bg-emerald-500/15 blur-[120px]" />
       <div className="absolute -bottom-52 -left-32 h-[420px] w-[420px] rounded-full bg-cyan-500/10 blur-[100px]" />
       <div className="absolute -right-32 top-1/3 h-[360px] w-[360px] rounded-full bg-emerald-400/8 blur-[100px]" />
 
-      {/* linhas do campo */}
       <svg
         viewBox="0 0 1200 700"
         preserveAspectRatio="xMidYMid slice"
@@ -33,7 +31,6 @@ function PitchBackdrop() {
         </g>
       </svg>
 
-      {/* vinheta para legibilidade */}
       <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background" />
     </div>
   );
@@ -60,16 +57,16 @@ export function Hero() {
             {...anim(0)}
             className="mb-5 inline-flex items-center gap-2 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-300"
           >
-            <span aria-hidden>🇺🇸 🇲🇽 🇨🇦</span> 11 jun — 19 jul · 48 seleções · 104 jogos
+            1930 — 2026 · 22 edições · 8 campeões
           </motion.p>
 
           <motion.h1
             {...anim(0.08)}
             className="text-balance text-5xl font-black leading-[1.02] tracking-tighter sm:text-7xl lg:text-8xl"
           >
-            Copa do Mundo{" "}
+            As Copas do{" "}
             <span className="bg-gradient-to-r from-emerald-300 via-emerald-400 to-cyan-400 bg-clip-text text-transparent">
-              2026
+              Mundo
             </span>
           </motion.h1>
 
@@ -77,24 +74,24 @@ export function Hero() {
             {...anim(0.16)}
             className="mt-6 max-w-xl text-pretty text-lg leading-relaxed text-muted-foreground sm:text-xl"
           >
-            Acompanhe jogos, tabela, estatísticas e tudo sobre o maior evento
-            do futebol — direto, rápido e sem ruído.
+            96 anos de finais, gênios e arenas que viraram lendas. Percorra a
+            história — e entre nos estádios icônicos em 3D.
           </motion.p>
 
           <motion.div {...anim(0.24)} className="mt-9 flex flex-wrap gap-3">
             <Link
-              href="/jogos"
+              href="/estadios"
               className="inline-flex min-h-12 items-center gap-2 rounded-full bg-emerald-400 px-7 text-sm font-bold text-black transition-transform hover:scale-[1.03] active:scale-[0.98] motion-reduce:transform-none"
             >
-              <CalendarDays aria-hidden className="h-4 w-4" />
-              Jogos de hoje
+              <Sparkles aria-hidden className="h-4 w-4" />
+              Estádios em 3D
             </Link>
             <Link
-              href="/tabela"
+              href="/historia"
               className="inline-flex min-h-12 items-center gap-2 rounded-full border border-white/15 bg-white/5 px-7 text-sm font-semibold backdrop-blur-sm transition-colors hover:border-white/30 hover:bg-white/10"
             >
-              <Table2 aria-hidden className="h-4 w-4" />
-              Tabela completa
+              <History aria-hidden className="h-4 w-4" />
+              Linha do tempo
             </Link>
           </motion.div>
         </div>

@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = "Copa do Mundo 2026 — jogos, tabela e estatísticas";
+export const alt = "As Copas do Mundo — história e estádios icônicos em 3D";
 
 export default function OpengraphImage() {
   return new ImageResponse(
@@ -31,7 +31,7 @@ export default function OpengraphImage() {
             fontWeight: 700,
           }}
         >
-          🇺🇸 🇲🇽 🇨🇦 · 11 JUN — 19 JUL
+          🏆 1930 — 2026 · 22 EDIÇÕES
         </div>
         <div
           style={{
@@ -42,7 +42,7 @@ export default function OpengraphImage() {
             letterSpacing: -4,
           }}
         >
-          Copa do Mundo
+          As Copas do
         </div>
         <div
           style={{
@@ -54,10 +54,10 @@ export default function OpengraphImage() {
             marginTop: -30,
           }}
         >
-          2026
+          Mundo
         </div>
         <div style={{ display: "flex", fontSize: 28, color: "#a1a1aa" }}>
-          Jogos · Tabela · Mata-mata · Estatísticas · Seleções
+          História · Campeões · Estádios icônicos em 3D
         </div>
       </div>
     ),
