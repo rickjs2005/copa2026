@@ -35,35 +35,35 @@ export function TrophySection() {
   return (
     <section className="border-y border-border bg-card/40">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 sm:py-24 lg:grid-cols-2 lg:items-center lg:gap-16">
-        {/* a imagem ultra da taça */}
-        <Reveal>
-          <figure className="relative mx-auto max-w-md lg:max-w-none">
-            <div
-              aria-hidden
-              className="absolute inset-0 -z-10 scale-110 rounded-full bg-[radial-gradient(closest-side,rgba(217,168,66,0.28),transparent)] blur-2xl"
+        {/* a imagem ultra da taça — SEM wrapper animado: lazy image dentro de
+            opacity:0 não carrega em vários navegadores mobile */}
+        <figure className="relative mx-auto w-full max-w-md lg:max-w-none">
+          <div
+            aria-hidden
+            className="absolute inset-0 -z-10 scale-110 rounded-full bg-[radial-gradient(closest-side,rgba(217,168,66,0.28),transparent)] blur-2xl"
+          />
+          <div className="relative aspect-[3/4] w-full overflow-hidden border border-gold/25">
+            <Image
+              src={TROPHY_SRC}
+              alt="Troféu da Copa do Mundo FIFA em ouro maciço, fotografado sobre fundo escuro"
+              fill
+              loading="eager"
+              sizes="(max-width: 1024px) 90vw, 45vw"
+              className="object-cover"
             />
-            <div className="relative aspect-[3/4] overflow-hidden border border-gold/25">
-              <Image
-                src={TROPHY_SRC}
-                alt="Troféu da Copa do Mundo FIFA em ouro maciço, fotografado sobre fundo escuro"
-                fill
-                sizes="(max-width: 1024px) 90vw, 45vw"
-                className="object-cover"
-              />
-              <span
-                aria-hidden
-                className="absolute inset-0 bg-gradient-to-t from-[#0b0d09]/70 via-transparent to-transparent"
-              />
-              <p className="font-display absolute bottom-4 left-4 right-4 text-2xl leading-none text-foreground sm:text-3xl">
-                O objeto mais cobiçado{" "}
-                <span className="text-gold">do futebol</span>
-              </p>
-            </div>
-            <figcaption className="mt-2 text-[10px] text-muted-foreground/70">
-              {TROPHY_CREDIT}
-            </figcaption>
-          </figure>
-        </Reveal>
+            <span
+              aria-hidden
+              className="absolute inset-0 bg-gradient-to-t from-[#0b0d09]/70 via-transparent to-transparent"
+            />
+            <p className="font-display absolute bottom-4 left-4 right-4 text-2xl leading-none text-foreground sm:text-3xl">
+              O objeto mais cobiçado{" "}
+              <span className="text-gold">do futebol</span>
+            </p>
+          </div>
+          <figcaption className="mt-2 text-[10px] text-muted-foreground/70">
+            {TROPHY_CREDIT}
+          </figcaption>
+        </figure>
 
         {/* curiosidades da taça */}
         <div>
