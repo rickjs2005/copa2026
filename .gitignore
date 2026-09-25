@@ -41,3 +41,11 @@ yarn-error.log*
 next-env.d.ts
 
 .vercel
+
+# notas de trabalho e estado local de agentes (nao versionar)
+/AUDITORIA-UX.md
+.claude/project-state.md
+.claude/launch.json
+.claude/settings*.json
+.claude/worktrees/
+.superpowers/
