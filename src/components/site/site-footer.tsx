@@ -53,9 +53,11 @@ export function SiteFooter() {
         </div>
         <div className="mt-12 border-t border-border pt-6 text-xs leading-relaxed text-muted-foreground">
           <p>
-            Site independente, sem vínculo com a FIFA ou federações. Nomes de
-            competições e seleções são usados apenas para fins informativos e
-            históricos. Os modelos 3D são representações estilizadas autorais.
+            Projeto fan-made, não oficial e sem fins comerciais, sem vínculo,
+            patrocínio ou endosso da FIFA ou de federações. Não usa logos nem
+            marcas oficiais; nomes de competições e seleções aparecem apenas para
+            fins informativos e históricos. Os modelos 3D são representações
+            estilizadas autorais.
           </p>
         </div>
       </div>
